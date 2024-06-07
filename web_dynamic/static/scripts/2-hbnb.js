@@ -13,5 +13,21 @@ $(() => {
 		const amenitiesString = amenitiesList.join(', ');
 		$('.amenities h4').text(amenitiesString);
 	});
+
+    function checkStatus () {
+        $.ajax({
+            url: "http://0.0.0.0:5001/api/v1/status/",
+            success: function(data) {
+                $('header #api_status').addClass('available');
+            },
+            error: function(error) {
+                console.log("Error", error);
+                $('header #api_status').removeClass('available');
+
+
+            }
+        })
+    }
+    checkStatus()
 })
 

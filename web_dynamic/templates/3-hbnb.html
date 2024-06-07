@@ -7,7 +7,7 @@
 			defer
 		></script>
 		<script
-			src="../static/scripts/1-hbnb.js?{{ cache_id }}"
+			src="../static/scripts/3-hbnb.js?{{ cache_id }}"
 			defer
 		></script>
 		<link
@@ -44,6 +44,7 @@
 	<body>
 		<header>
 			<div class="logo"></div>
+            <div id="api_status"></div>
 		</header>
 		<div class="container">
 			<section class="filters">
@@ -91,8 +92,7 @@
 			</section>
 			<div class="placesh1"><h1>Places</h1></div>
 			<section class="places">
-				<!-- <h1>Places</h1> -->
-				{% for place in places %}
+				<!-- {% for place in places %}
 				<article>
 					<div class="title_box">
 						<h2>{{ place.name }}</h2>
@@ -110,7 +110,7 @@
 					<div class="user"> <b>Owner:</b> {{ place.user.first_name }} {{ place.user.last_name }} </div>
 					<div class="description"> {{ place.description | safe }} </div>
 				</article>
-				{% endfor %}
+				{% endfor %} -->
 			</section>
 		</div>
 		<footer>

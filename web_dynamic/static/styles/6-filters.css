@@ -23,6 +23,7 @@ button:hover {
 }
 .filters div {
 	display: inline-grid;
+	
 }
 .filters h2 {
 	margin-left: 15%;
@@ -50,6 +51,11 @@ button:hover {
 	height: 100%;
 	width: 25%;
 }
+.amenities div h4 {
+	width: 100%; /* Adjust width as needed */
+  overflow: hidden;
+  text-overflow: ellipsis
+}
 
 .popover {
 	visibility: hidden;
@@ -62,6 +68,7 @@ button:hover {
 	overflow-y: scroll;
 	scrollbar-width: none;
 	max-height: 300px;
+	transition: 0.2s ease-in-out;
 }
 
 .popover::-webkit-scrollbar {
@@ -71,7 +78,7 @@ button:hover {
 .amenities .popover {
 	padding: 10px 0;
 	margin-left: -5px;
-	margin-top: 0%;
+	margin-top: 0px;
 }
 
 .amenities .popover ul {
@@ -105,4 +112,13 @@ button:hover {
 .popover ul div {
 	display: flex;
 	gap: 10px;
+}
+.popover ul div .heading_checkbox {
+	margin-top: 10px;
+	align-self: flex-start;
+}
+.amenities .dynamic_h4 {
+	height: 40px;
+	text-overflow: ellipsis;
+	max-width: 100%;
 }
