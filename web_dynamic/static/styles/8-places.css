@@ -26,13 +26,11 @@
     page-break-inside: avoid;
     display: inline-block;
     width: 390px;
-    max-height: 600px;
     height: 100%;
     padding: 20px;
     margin: 20px;
     border: 1px solid #FF5A5F;
     border-radius: 4px;
-    overflow-y: scroll;
 }
 .places h2 {
     font-size: 30px;
@@ -103,13 +101,17 @@
 }
 
 .places .reviews {
-    border-bottom: solid #DDDDDD 1px;
+    margin-top: 40px;
+    position: relative;
 }
 .places .reviews h2 {
     font-size: 16px;
+    border-bottom: solid #DDDDDD 1px;
 }
-.places .reviews ul {
+.places .reviews ul.review_list {
     list-style-type: none;
+}
+.places .reviews ul.review_list .hidden {
     visibility: hidden;
 }
 .places div h3 {
@@ -126,10 +128,11 @@
     align-self: center;
 }
 
-.places .reviews .reviews_title span {
-    align-self: flex-start;
-    text-decoration: underline;
+.places .reviews span {
     color: blue;
     cursor:pointer;
     position: absolute;
+    right: 10px;
+    top: 0px;
+
 }

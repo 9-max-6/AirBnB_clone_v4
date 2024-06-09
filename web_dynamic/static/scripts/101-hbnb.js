@@ -131,6 +131,57 @@ $(() => {
         })
     }
 
+    function attachEventListeners() {
+        $('.places .reviews span').click(function () {
+            console.log("I got clicked");
+    
+            const $span = $(this); // Store the reference to the clicked span
+            const reviewList = $span.closest('.reviews').find('ul.review_list');
+    
+            if ($span.text() === 'Hide') {
+                $span.text('Show');
+                reviewList.empty();                
+            } else {
+                const dataId = $span.data('id');
+                console.log(dataId);
+                $.ajax({
+                    url: `http://0.0.0.0:5001/api/v1/places/${dataId}/reviews`,
+                }).then((data) => {
+                    reviewList.empty(); // Clear the review list before appending new items
+    
+                    const reviewPromises = data.map((review) => {
+                        const dateString = review.created_at;
+                        const dateObject = new Date(Date.parse(dateString));
+                        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+                        const reviewText = review.text;
+    
+                        return $.ajax({
+                            url: `http://0.0.0.0:5001/api/v1/users/${review.user_id}`,
+                        }).then((userData) => {
+                            const userName = userData.first_name + ' ' + userData.last_name;
+                            reviewList.append(
+                                `<li>
+                                    <h3>From ${userName} in ${monthNames[dateObject.getMonth()]}</h3>
+                                    <p>${reviewText}</p>
+                                </li>`
+                            );
+                        });
+                    });
+                    $.when.apply($, reviewPromises).then(() => {
+                        reviewList.toggleClass('hidden');
+                        $span.text('Hide');
+                    });
+                    
+                }).catch((error) => {
+                    console.error(error);
+                });
+            }
+        });
+    }
+    
+    
+
     function displayPlaces (data) {
         const places_section = $('section.places');
         places_section.empty();
@@ -175,60 +226,25 @@ $(() => {
 					<div class="description"> ${place.description}</div>
                     </div>
                     <div class="reviews">
-                        <div class="reviews_title">
+                            <h2>Reviews</h2>
                             <span
-                                data-id="${place.id }}"
+                                data-id="${place.id }"
 								data-name="${place.name}"
                             >
                             Show
                             </span>
-                            <h2>Reviews</h2>
-                        </div>
-                        <ul>
-                        </ul>
-                    </div
+                            <ul class="review_list hidden" >
+                            </ul>
+                           
+                    </div>
+                        
                 </article>`
             )
         }
+        attachEventListeners();
+       
     }
     checkStatus();
     
-    $('.places .reviews .reviews_title span').click(function () {
-        console.log("I got clicked");
-        if ($(this).text === 'Hide') {
-            $(this).text('Show');
-            $('.places .reviews ul').css('visibility: hidden')
-        } else {
-            const dataId = $(this).data('id');
-		    const dataName = $(this).data('name');
-            $.ajax({
-                url: `http://0.0.0.0:5001/api/v1/${dataId}/reviews`,
-                success: function(data) {
-                    console.log(data);
-                },
-                error: function(error) {
-                    console.error(error);
-                }
-            })
-        }
-    })
+    
 })
-
-
-// List of Reviews:
-
-//     tag div
-//     classname reviews
-//     margin top 40px
-//     contains:
-//         title:
-//             tag h2
-//             text Reviews
-//             font size 16px
-//             border bottom #DDDDDD 1px
-//         list of review:
-//             tag ul / li
-//             no list style
-//             a review is described by:
-//                 h3 tag for the user/date description (font size 14px). Ex: “From Bob Dylan the 27th January 2017”
-//                 p tag for the text (font size 12px)
